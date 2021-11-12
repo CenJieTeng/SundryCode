@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.17)
+project(SundryCode)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/macros")
+include(AutoCollect)
+
+if ("${PNAME}" STREQUAL "FINDER")
+    add_subdirectory(Finder)
+elseif("${PNAME}" STREQUAL "SHAREDMEM")
+    add_subdirectory(TestDllSharedMemory)
+endif()

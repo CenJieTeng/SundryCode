@@ -1,11 +1,11 @@
 #include <iostream>
 #include <sstream>
 #include <thread>
-#include "Finder\AStar.h"
-#include "Finder\Jps.h"
+#include "AStar.h"
+#include "Jps.h"
 
-constexpr int width = 50;
-constexpr int height = 50;
+constexpr int width = 500;
+constexpr int height = 500;
 
 int main() {
     std::vector<std::vector<int>> terrain = {(const size_t)width, std::vector<int>(height, 1)};
@@ -74,5 +74,6 @@ int main() {
     std::cout << "AStar: " << difftime(tick2, tick1) << "ms" << std::endl;
     std::cout << "Jps: " << difftime(tick4, tick3) << "ms" << std::endl;
     std::cout << "done." << std::endl;
+    system("pause");
     return 0;
 }
