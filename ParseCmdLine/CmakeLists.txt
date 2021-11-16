@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.17)
+project(ParseCmdLine)
+
+if (Boost_FOUND)
+    MESSAGE( STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}.")
+    MESSAGE( STATUS "Boost_LIBRARIES = ${Boost_LIBRARIES}.")
+    MESSAGE( STATUS "Boost_LIB_VERSION = ${Boost_LIB_VERSION}.")
+
+    include_directories("${Boost_INCLUDE_DIRS}")
+    link_directories("${Boost_LIBRARY_DIR_DEBUG}")
+    add_executable(main main.cpp)
+    target_link_libraries(main Boost::program_options)
+else()
+    message("Boost not found")
+endif()
