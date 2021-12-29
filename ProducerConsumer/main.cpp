@@ -1,20 +1,23 @@
 #include <ctime>
+#include <cassert>
 #include <iostream>
 #include <thread>
 #include <mutex>
 #include <atomic>
 #include <deque>
+#include <functional>
+#include <vector>
+#include <string>
+#include <iomanip>
 #include "concurrent_queue.h"
 
 std::atomic_int count = 0;
-const int kRun = 100;
-
 std::deque<int> dq;
 std::mutex lock;
-void test1()
+void test1(int kRun)
 {
     //producer
-    auto t1 = std::thread([](){
+    auto t1 = std::thread([kRun](){
         for (int i = 0; i < kRun; i ++)
         {
             std::lock_guard<std::mutex> guard(lock);
@@ -26,7 +29,7 @@ void test1()
     std::thread ts[4];
     for (int i = 0; i < 4; i++)
     {
-        ts[i] = std::thread([]{
+        ts[i] = std::thread([kRun]{
             while(count != kRun)
             {
                 std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -51,10 +54,10 @@ void test1()
 }
 
 Concurrency::concurrent_queue<int> cq;
-void test2()
+void test2(int kRun)
 {
     //producer
-    auto t1 = std::thread([](){
+    auto t1 = std::thread([kRun](){
         for (int i = 0; i < kRun; i ++)
         {
             cq.push(i);
@@ -65,7 +68,7 @@ void test2()
     std::thread ts[4];
     for (int i = 0; i < 4; i++)
     {
-        ts[i] = std::thread([]{
+        ts[i] = std::thread([kRun]{
             int item;
             while(count != kRun)
             {
@@ -85,21 +88,59 @@ void test2()
     }
 }
 
-void test(void(*f)(), const char *str)
+double test(std::function<void(int)> f, int kRun)
 {
     count = 0;
     time_t s = clock();
-    f();
-    std::cout << str << difftime(clock(), s) << "ms" << std::endl;
-    std::cout << count << std::endl;
+    f(kRun);
+    assert(count == kRun);
+    return difftime(clock(), s);
+}
+
+/*
+data: defined operator<< 
+*/
+template<typename T>
+void printVec(std::vector<T> data, int w)
+{
+    for (int i = 0; i < data.size(); i++)
+    {
+        std::cout << std::setw(w) << data[i];
+    }
+}
+
+template<typename T>
+void printTable(std::vector<std::string> header, std::vector<std::vector<T>> data, int w)
+{
+    int hw = 0;
+    for (const auto &v : header)
+    {
+        hw = hw > v.size() ? hw : v.size();
+    }
+    int size = std::max(header.size(), data.size());
+    std::cout << std::setiosflags(std::ios::left);
+    for (int i = 0; i < size; i++)
+    {
+        std::string str = { (header.size() > i) ? header[i] : "" };
+        std::cout << std::setw(hw) << str  << " ";
+        if (data.size() > i)
+        {
+            printVec(data[i], w);
+        }
+        std::cout << std::endl;
+    }
 }
 
 int main()
 {
-    
-    test(test1, "test1: ");
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    test(test2, "test2: ");
-
+    std::vector<std::string> header = {"count", "lock queue", "concurrent queue"};
+    std::vector<int> data1 = {1, 10, 100, 200}, data2, data3;
+    for (int n : data1)
+    {
+        data2.push_back(test(test1, n));
+        data3.push_back(test(test2, n));
+    }
+    std::vector<std::vector<int>> data = {data1, data2, data3};
+    printTable(header, data, 5);
     return 0;
 }
