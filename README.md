@@ -7,6 +7,7 @@
 | TestDllSharedMemory | SHAREDMEM        |                                       |
 | ParseCmdLine        | PCL              | Boost::program_options use example    |
 | ProducerConsumer    | PC               | Multi thread concurrent queue example |
+| Log                 | LOG              | spdlog                                |
 
 ### build:
 ```
