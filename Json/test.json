@@ -1,0 +1,12 @@
+{
+    "Int" : 1,
+    "Float" : 1.1,
+    "String" : "Hello World",
+    "Boolean" : true,
+    "Array" : [1, 2, 3],
+    "Object" : {
+        "key1" : 1,
+        "key2" : 2,
+        "key3" : 3
+    }
+}

@@ -2,10 +2,21 @@ cmake_minimum_required(VERSION 3.17)
 project(SundryCode)
 
 SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MTd")
+
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/macros")
 include(AutoCollect)
+
+IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
+    MESSAGE("Now is Windows")
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    MESSAGE("Now is Linux")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+ENDIF ()
 
 #boost
 SET(Boost_NO_SYSTEM_PATHS 1) #环境变量BOOST_ROOT路径寻找
@@ -13,14 +24,23 @@ SET(Boost_DEBUG 0) #显示cmake boost调试信息
 SET(Boost_USE_STATIC_LIBS 1)
 find_package(Boost REQUIRED OPTIONAL_COMPONENTS program_options)
 
-if ("${PNAME}" STREQUAL "FINDER")
-    add_subdirectory(Finder)
-elseif("${PNAME}" STREQUAL "SHAREDMEM")
-    add_subdirectory(TestDllSharedMemory)
-elseif("${PNAME}" STREQUAL "PCL")
-    add_subdirectory(ParseCmdLine)
-elseif("${PNAME}" STREQUAL "PC")
-    add_subdirectory(ProducerConsumer)
-elseif("${PNAME}" STREQUAL "LOG")
-    add_subdirectory(Log)
-endif()
+#if ("${PNAME}" STREQUAL "FINDER")
+#    add_subdirectory(Finder)
+#elseif("${PNAME}" STREQUAL "SHAREDMEM")
+#    add_subdirectory(TestDllSharedMemory)
+#elseif("${PNAME}" STREQUAL "PCL")
+#    add_subdirectory(ParseCmdLine)
+#elseif("${PNAME}" STREQUAL "PC")
+#    add_subdirectory(ProducerConsumer)
+#elseif("${PNAME}" STREQUAL "LOG")
+#    add_subdirectory(Log)
+#elseif("${PNAME}" STREQUAL "JSON")
+#    add_subdirectory(Json)
+#endif()
+
+add_subdirectory(Finder)
+add_subdirectory(TestDllSharedMemory)
+add_subdirectory(ParseCmdLine)
+add_subdirectory(ProducerConsumer)
+add_subdirectory(Log)
+add_subdirectory(Json)

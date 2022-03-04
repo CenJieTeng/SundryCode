@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.17)
+project(Json)
+
+PickSourceFiles(
+    ${CMAKE_CURRENT_SOURCE_DIR}/
+    CODEFILES
+    #Exclude
+    #...
+)
+
+add_executable(${PROJECT_NAME} ${CODEFILES} ${PROJECT_SOURCE_DIR}/main.cpp)
