@@ -4,3 +4,4 @@
 *.exe
 *.exp
 *.pdb
+/cmake-build-debug/
