@@ -4,8 +4,8 @@
 | Project             | Desc                                  |
 | :------------------ | :------------------------------------ |
 | Finder              | Path find algorithm                   |
-| TestDllSharedMemory |                                       |
+| TestDllSharedMemory | DLL multiple processes share memory   |
 | ParseCmdLine        | Boost::program_options use example    |
 | ProducerConsumer    | Multi thread concurrent queue example |
 | Log                 | spdlog                                |
-| Json                |                                       |
+| Json                | nlohmann json                         |
