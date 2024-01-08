@@ -1,3 +1,6 @@
 [submodule "vendor/spdlog"]
 	path = vendor/spdlog
 	url = https://github.com/CenJieTeng/spdlog.git
+[submodule "vendor/pugixml"]
+	path = vendor/pugixml
+	url = https://github.com/zeux/pugixml.git
